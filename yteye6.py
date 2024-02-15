@@ -108,8 +108,6 @@ def delete_unwanted_chat_files():
 
 from datetime import datetime
 
-from datetime import datetime
-
 def user_is_online(user_messages):
     # Check if there are new messages in the last two minutes
     if user_messages:
