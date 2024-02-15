@@ -35,7 +35,6 @@ def display_header():
     """
     print(header)
 
-@retry(stop=stop_after_attempt(3), wait=wait_fixed(5))
 async def send_messages_to_telegram(bot, chat_id, messages):
     for message in messages:
         author_name = message['author']['name']
@@ -56,7 +55,7 @@ async def send_messages_to_telegram(bot, chat_id, messages):
             loop = asyncio.get_event_loop()
 
             try:
-                await loop.run_in_executor(None, bot.send_photo, chat_id, image_file, caption)
+                await loop.run_in_executor(None, bot.send_photo, chat_id, image_file, caption)  # Await here
                 print(f"[✅]Sent message to Telegram for user {author_name}")
 
             except RetryAfter as e:
