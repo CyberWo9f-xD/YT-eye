@@ -110,7 +110,7 @@ from datetime import datetime
 def user_is_online(user_messages):
     # Check if there are new messages in the last two minutes
     if user_messages:
-        current_time = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        current_time = datetime.utcnow()
         for message in user_messages:
             if 'timestamp' in message:
                 timestamp = message['timestamp']
@@ -120,14 +120,22 @@ def user_is_online(user_messages):
                         print(f"[❌]Error processing timestamp for message: {message}. Timestamp too large. Skipping message.")
                         continue
                     else:
-                        last_message_time = datetime.utcfromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
+                        try:
+                            last_message_time = datetime.utcfromtimestamp(timestamp)
+                        except OverflowError:
+                            print(f"[❌]Error processing timestamp for message: {message}. Timestamp out of range. Skipping message.")
+                            continue
                 elif isinstance(timestamp, str):
-                    last_message_time = timestamp
+                    try:
+                        last_message_time = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+                    except ValueError:
+                        print(f"[❌]Error processing timestamp for message: {message}. Invalid timestamp format. Skipping message.")
+                        continue
                 else:
                     print(f"[❌]Error processing timestamp for message: {message}. Invalid timestamp format. Skipping message.")
                     continue
 
-                time_difference = datetime.strptime(current_time, "%Y-%m-%d %H:%M:%S") - datetime.strptime(last_message_time, "%Y-%m-%d %H:%M:%S")
+                time_difference = current_time - last_message_time
                 if time_difference.total_seconds() < 120:  # 2 minutes
                     return True
     return False
