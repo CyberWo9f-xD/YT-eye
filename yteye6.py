@@ -68,7 +68,7 @@ async def send_messages_to_telegram(bot, chat_id, messages):
 
 async def send_ready_message(bot, chat_id):
     ready_message = "🚀 Ready to fly! 🚀"
-    bot.send_message(chat_id=chat_id, text=ready_message)
+    await bot.send_message(chat_id=chat_id, text=ready_message)  # Await here
     print("[✅]Sent 'Ready to fly!' message to Telegram bot.")
 
 def download_chat(video_id, target_user_ids):
