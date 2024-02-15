@@ -48,14 +48,12 @@ async def send_messages_to_telegram(bot, chat_id, messages):
             image_file = InputFile(io.BytesIO(image_data), filename=f"{author_name}_image.jpg")
 
             caption = f'👤 | 𝗡𝗮𝗺𝗲: "{author_name}"\n'
-            caption += f'🕘 | 𝐓𝐢𝐦𝐞: {message_time}\n'
+            caption += f'🕘 | 𝐓𝐢𝐦𝐞: "{message_time}"\n'
             caption += f'⚙️ | 𝐒𝐩𝐨𝐭𝐭𝐞𝐝 𝐛𝐲: @YTeye_bot\n'
             caption += f'✉️ | 𝐌𝐞𝐬𝐬𝐚𝐠𝐞: "{message_content}" ✅\n'
 
-            loop = asyncio.get_event_loop()
-
             try:
-                await loop.run_in_executor(None, bot.send_photo, chat_id, image_file, caption)  # Await here
+                await bot.send_photo(chat_id, image_file, caption)  # Await here
                 print(f"[✅]Sent message to Telegram for user {author_name}")
 
             except RetryAfter as e:
@@ -64,6 +62,8 @@ async def send_messages_to_telegram(bot, chat_id, messages):
 
         else:
             print(f"[🚫]No 32x32 image found for user {author_name}")
+
+        await asyncio.sleep(1)  # Add a 1-second delay between sending each message
 
 async def send_ready_message(bot, chat_id):
     ready_message = "🚀 Ready to fly! 🚀"
