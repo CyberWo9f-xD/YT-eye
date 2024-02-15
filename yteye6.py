@@ -47,10 +47,10 @@ async def send_messages_to_telegram(bot, chat_id, messages):
 
             image_file = InputFile(io.BytesIO(image_data), filename=f"{author_name}_image.jpg")
 
-            caption = f'👤 | 𝗡𝗮𝗺𝗲: "{author_name}"\n'
-            caption += f'🕘 | 𝐓𝐢𝐦𝐞: "{message_time}"\n'
-            caption += f'⚙️ | 𝐒𝐩𝐨𝐭𝐭𝐞𝐝 𝐛𝐲: @YTeye_bot\n'
-            caption += f'✉️ | 𝐌𝐞𝐬𝐬𝐚𝐠𝐞: "{message_content}" ✅\n'
+            caption = f'👤 | 𝗡𝗮𝗺𝗲; "{author_name}"\n'
+            caption += f'🕘 | 𝐓𝐢𝐦𝐞; "{message_time}"\n'
+            caption += f'⚙️ | 𝐒𝐩𝐨𝐭𝐭𝐞𝐝 𝐛𝐲; "@SpyAgentYT_bot" 🤖\n'
+            caption += f'✉️ | 𝐌𝐞𝐬𝐬𝐚𝐠𝐞; "{message_content}" ✅\n'
 
             try:
                 await bot.send_photo(chat_id, image_file, caption)  # Await here
